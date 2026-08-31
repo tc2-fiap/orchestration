@@ -65,7 +65,7 @@ Nenhum outro arquivo precisa ser editado — todo subchart já lê `{{ .Values.g
 
 ## Documentação
 
-A documentação completa do projeto — especificação, registro de decisões, arquitetura e este guia de primeiros passos — vive em [`../documentation/`](../documentation/), um repositório próprio, não neste repositório (`notes.md` 34, 44).
+A documentação completa do projeto — especificação, registro de decisões, arquitetura e este guia de primeiros passos — vive em [`../documentation/`](../documentation/), um repositório próprio (também publicado em [github.com/tc2-fiap/documentation](https://github.com/tc2-fiap/documentation)), não neste repositório (`notes.md` 34, 44, 49).
 
 ## Contexto
 

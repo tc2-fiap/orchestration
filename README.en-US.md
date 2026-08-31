@@ -65,7 +65,7 @@ No other file needs editing — every subchart already reads `{{ .Values.global.
 
 ## Documentation
 
-The full project documentation — specification, decision record, architecture, and this getting-started guide — lives in [`../documentation/`](../documentation/), a repo of its own, not in this repo (`notes.md` 34, 44).
+The full project documentation — specification, decision record, architecture, and this getting-started guide — lives in [`../documentation/`](../documentation/), a repo of its own (also published at [github.com/tc2-fiap/documentation](https://github.com/tc2-fiap/documentation)), not in this repo (`notes.md` 34, 44, 49).
 
 ## Context
 
