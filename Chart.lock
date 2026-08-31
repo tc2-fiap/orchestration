@@ -1,0 +1,21 @@
+dependencies:
+- name: users-api
+  repository: file://../users-api/k8s
+  version: 0.1.0
+- name: notifications-api
+  repository: file://../notifications-api/k8s
+  version: 0.1.0
+- name: catalog-api
+  repository: file://../catalog-api/k8s
+  version: 0.1.0
+- name: orders-api
+  repository: file://../orders-api/k8s
+  version: 0.1.0
+- name: payments-api
+  repository: file://../payments-api/k8s
+  version: 0.1.0
+- name: frontend
+  repository: file://../frontend/k8s
+  version: 0.1.0
+digest: sha256:c96b3b74ce26b9cb173ab21fb6ef8abffb5e175809376ca39bac8307261548c0
+generated: "2026-08-30T17:14:58.606149813-03:00"

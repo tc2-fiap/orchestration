@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jwt-config
+  namespace: {{ .Values.global.namespace }}
+data:
+  JWT_ISSUER: {{ .Values.jwt.issuer | quote }}
+  JWT_AUDIENCE: {{ .Values.jwt.audience | quote }}
+  JWT_EXPIRY_MINUTES: {{ .Values.jwt.expiryMinutes | quote }}

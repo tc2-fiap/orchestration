@@ -1,0 +1,72 @@
+# `global` is the one Helm section every subchart (users-api, etc.) sees
+# automatically without being listed as a dependency value override.
+global:
+  namespace: fiap-games
+
+# Local-only dev defaults. Real values are injected via the Secret templates
+# below (stringData), never hardcoded into a Deployment/ConfigMap manifest —
+# this file is Helm input, not a rendered cluster object. See notes.md 5.
+postgres:
+  image: postgres:16-alpine
+  storage: 2Gi
+  database: fiap_games
+  superuserPassword: "postgres-dev-password"
+  # One schema + one dedicated login role per service. A role's search_path
+  # is pinned to its own schema and it is granted nothing on any other —
+  # cross-schema access is refused by Postgres itself, not just convention.
+  roles:
+    users:
+      schema: users
+      password: "users-dev-password"
+    catalog:
+      schema: catalog
+      password: "catalog-dev-password"
+    orders:
+      schema: orders
+      password: "orders-dev-password"
+    payments:
+      schema: payments
+      password: "payments-dev-password"
+    notifications:
+      schema: notifications
+      password: "notifications-dev-password"
+
+rabbitmq:
+  image: rabbitmq:3.13-management-alpine
+  username: fiap
+  password: "rabbitmq-dev-password"
+
+# Shared symmetric JWT signing secret — every service validates with this
+# same key; only users-api issues tokens. See notes.md 19.
+jwt:
+  secret: "dev-only-secret-change-me-please-32chars-min"
+  issuer: "FiapGames"
+  audience: "FiapGames.Client"
+  expiryMinutes: 60
+
+# The one seeded Admin account users-api creates at startup if this email
+# doesn't already exist — promotion of any other admin requires this one
+# to exist first. See notes.md (RBAC entry).
+admin:
+  email: "admin@fiapgames.local"
+  password: "admin-dev-password-change-me"
+
+# Real email delivery is optional and config-toggled (notifications-api's
+# Email:Provider) — this key only matters when that's set to "resend".
+# Empty by default; a real key must be supplied to actually send.
+resend:
+  apiKey: ""
+
+# Real payment gateways are optional and config-toggled (payments-api's
+# PaymentGateway:Providers) — these keys only matter when their provider
+# name appears in that ordered list. Empty by default; simulated remains
+# fully available and is the default chain regardless. WebhookSecret only
+# matters once payments-api's webhook receiver is put behind a real public
+# Ingress — dormant in this local topology. See notes.md 38.
+abacatePay:
+  apiKey: ""
+  webhookSecret: ""
+
+mercadoPago:
+  accessToken: ""
+  webhookSecret: ""

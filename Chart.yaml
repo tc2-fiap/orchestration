@@ -1,0 +1,27 @@
+apiVersion: v2
+name: fiap-games
+description: Umbrella Helm chart for the FIAP Games distributed system (shared infrastructure + per-service subcharts)
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+
+dependencies:
+  - name: users-api
+    version: "0.1.0"
+    repository: "file://../users-api/k8s"
+  - name: notifications-api
+    version: "0.1.0"
+    repository: "file://../notifications-api/k8s"
+  - name: catalog-api
+    version: "0.1.0"
+    repository: "file://../catalog-api/k8s"
+  - name: orders-api
+    version: "0.1.0"
+    repository: "file://../orders-api/k8s"
+  - name: payments-api
+    version: "0.1.0"
+    repository: "file://../payments-api/k8s"
+  - name: frontend
+    version: "0.1.0"
+    repository: "file://../frontend/k8s"
+
