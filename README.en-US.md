@@ -12,7 +12,7 @@ helm dependency update
 helm install fiap-games .
 ```
 
-See [`../documentation/narrative/GETTING_STARTED.en-US.md`](../documentation/narrative/GETTING_STARTED.en-US.md) ([pt-BR](../documentation/narrative/GETTING_STARTED.pt-BR.md)) for the full prerequisite list, verification steps, and a complete demo walkthrough (register, buy a game, watch `Pending → Paid`, admin audit trail).
+See `../documentation/narrative/GETTING_STARTED.en-US.md` if you already have the `documentation` repo cloned as a sibling, or [github.com/tc2-fiap/documentation](https://github.com/tc2-fiap/documentation/blob/main/narrative/GETTING_STARTED.en-US.md) ([pt-BR](https://github.com/tc2-fiap/documentation/blob/main/narrative/GETTING_STARTED.pt-BR.md)) otherwise, for the full prerequisite list, verification steps, and a complete demo walkthrough (register, buy a game, watch `Pending → Paid`, admin audit trail).
 
 ## Inspect the running system
 
@@ -24,7 +24,7 @@ kubectl get all -n fiap-games              # + Deployments, Services, ReplicaSet
 kubectl get pods -n fiap-games -w          # live, updates as pods start/restart
 ```
 
-Expect 8 pods once fully up: Postgres, RabbitMQ, the five backend services, and the frontend — see `GETTING_STARTED.md` §3 for what a healthy vs. unhealthy result looks like. Each is labeled `app=<service-name>` (`app=orders-api`, `app=frontend`, etc.), which is also the fastest way to tail one service's logs or drop into its shell without typing the full pod name (the trailing hash changes on every restart/redeploy):
+Expect 8 pods once fully up: Postgres, RabbitMQ, the five backend services, and the frontend — see `GETTING_STARTED.md` §4 for what a healthy vs. unhealthy result looks like. Each is labeled `app=<service-name>` (`app=orders-api`, `app=frontend`, etc.), which is also the fastest way to tail one service's logs or drop into its shell without typing the full pod name (the trailing hash changes on every restart/redeploy):
 
 ```bash
 kubectl logs -n fiap-games -l app=orders-api --tail=100 -f
@@ -65,8 +65,8 @@ No other file needs editing — every subchart already reads `{{ .Values.global.
 
 ## Documentation
 
-The full project documentation — specification, decision record, architecture, and this getting-started guide — lives in [`../documentation/`](../documentation/), a repo of its own (also published at [github.com/tc2-fiap/documentation](https://github.com/tc2-fiap/documentation)), not in this repo (`notes.md` 34, 44, 49).
+The full project documentation — specification, decision record, architecture, and this getting-started guide — lives in the `documentation` repo, a repo of its own: [`github.com/tc2-fiap/documentation`](https://github.com/tc2-fiap/documentation) (or `../documentation/` if you have it cloned as a sibling) — not in this repo (`notes.md` 34, 44, 49).
 
 ## Context
 
-Academic project (FIAP). See [`../documentation/README.en-US.md`](../documentation/README.en-US.md) for the full eight-repo picture.
+Academic project (FIAP). See [`README.en-US.md`](https://github.com/tc2-fiap/documentation/blob/main/README.en-US.md) in the `documentation` repo for the full eight-repo picture.

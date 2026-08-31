@@ -12,7 +12,7 @@ helm dependency update
 helm install fiap-games .
 ```
 
-Veja [`../documentation/narrative/GETTING_STARTED.pt-BR.md`](../documentation/narrative/GETTING_STARTED.pt-BR.md) ([English](../documentation/narrative/GETTING_STARTED.en-US.md)) para a lista completa de pré-requisitos, os passos de verificação e um passo a passo completo de demonstração (cadastro, compra de um jogo, observar `Pending → Paid`, trilha de auditoria de admin).
+Veja `../documentation/narrative/GETTING_STARTED.pt-BR.md` se você já tem o repositório `documentation` clonado como irmão, ou [github.com/tc2-fiap/documentation](https://github.com/tc2-fiap/documentation/blob/main/narrative/GETTING_STARTED.pt-BR.md) ([English](https://github.com/tc2-fiap/documentation/blob/main/narrative/GETTING_STARTED.en-US.md)) caso contrário, para a lista completa de pré-requisitos, os passos de verificação e um passo a passo completo de demonstração (cadastro, compra de um jogo, observar `Pending → Paid`, trilha de auditoria de admin).
 
 ## Inspecionar o sistema em execução
 
@@ -24,7 +24,7 @@ kubectl get all -n fiap-games              # + Deployments, Services, ReplicaSet
 kubectl get pods -n fiap-games -w          # ao vivo, atualiza conforme os pods sobem/reiniciam
 ```
 
-Espere 8 pods quando tudo estiver de pé: Postgres, RabbitMQ, os cinco serviços de backend e o frontend — veja `GETTING_STARTED.md` §3 para o que é um resultado saudável vs. não saudável. Cada um tem o label `app=<nome-do-serviço>` (`app=orders-api`, `app=frontend`, etc.), que também é a forma mais rápida de seguir os logs de um serviço ou entrar no shell dele sem digitar o nome completo do pod (o hash no final muda a cada reinício/redeploy):
+Espere 8 pods quando tudo estiver de pé: Postgres, RabbitMQ, os cinco serviços de backend e o frontend — veja `GETTING_STARTED.md` §4 para o que é um resultado saudável vs. não saudável. Cada um tem o label `app=<nome-do-serviço>` (`app=orders-api`, `app=frontend`, etc.), que também é a forma mais rápida de seguir os logs de um serviço ou entrar no shell dele sem digitar o nome completo do pod (o hash no final muda a cada reinício/redeploy):
 
 ```bash
 kubectl logs -n fiap-games -l app=orders-api --tail=100 -f
@@ -65,8 +65,8 @@ Nenhum outro arquivo precisa ser editado — todo subchart já lê `{{ .Values.g
 
 ## Documentação
 
-A documentação completa do projeto — especificação, registro de decisões, arquitetura e este guia de primeiros passos — vive em [`../documentation/`](../documentation/), um repositório próprio (também publicado em [github.com/tc2-fiap/documentation](https://github.com/tc2-fiap/documentation)), não neste repositório (`notes.md` 34, 44, 49).
+A documentação completa do projeto — especificação, registro de decisões, arquitetura e este guia de primeiros passos — vive no repositório `documentation`, um repositório próprio: [`github.com/tc2-fiap/documentation`](https://github.com/tc2-fiap/documentation) (ou `../documentation/` se você o tiver clonado como irmão) — não neste repositório (`notes.md` 34, 44, 49).
 
 ## Contexto
 
-Projeto acadêmico (FIAP). Veja [`../documentation/README.pt-BR.md`](../documentation/README.pt-BR.md) para a visão completa dos oito repositórios.
+Projeto acadêmico (FIAP). Veja [`README.pt-BR.md`](https://github.com/tc2-fiap/documentation/blob/main/README.pt-BR.md) no repositório `documentation` para a visão completa dos oito repositórios.
