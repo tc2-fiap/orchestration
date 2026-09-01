@@ -12,7 +12,7 @@ helm dependency update
 helm install fiap-games .
 ```
 
-See `../documentation/narrative/GETTING_STARTED.en-US.md` if you already have the `documentation` repo cloned as a sibling, or [github.com/tc2-fiap/documentation](https://github.com/tc2-fiap/documentation/blob/main/narrative/GETTING_STARTED.en-US.md) ([pt-BR](https://github.com/tc2-fiap/documentation/blob/main/narrative/GETTING_STARTED.pt-BR.md)) otherwise, for the full prerequisite list, verification steps, and a complete demo walkthrough (register, buy a game, watch `Pending → Paid`, admin audit trail).
+See `../documentation/getting-started/GETTING_STARTED.en-US.md` if you already have the `documentation` repo cloned as a sibling, or [github.com/tc2-fiap/documentation](https://github.com/tc2-fiap/documentation/blob/main/getting-started/GETTING_STARTED.en-US.md) ([pt-BR](https://github.com/tc2-fiap/documentation/blob/main/getting-started/GETTING_STARTED.pt-BR.md)) otherwise, for the full prerequisite list, verification steps, and a complete demo walkthrough (register, buy a game, watch `Pending → Paid`, admin audit trail).
 
 ## Inspect the running system
 
