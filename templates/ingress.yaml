@@ -3,6 +3,15 @@ kind: Ingress
 metadata:
   name: fiap-games
   namespace: {{ .Values.global.namespace }}
+  annotations:
+    # orders-api's /api/orders/{id}/stream is a Server-Sent Events endpoint
+    # (notes.md — polling→SSE decision). nginx buffers responses and
+    # defaults to a 60s read/send timeout by default, both of which would
+    # break a long-lived SSE connection; there's one Ingress resource here
+    # so these apply system-wide, which is harmless for every other route.
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
 spec:
   ingressClassName: nginx
   rules:
