@@ -51,6 +51,13 @@ admin:
   email: "admin@fiapgames.local"
   password: "admin-dev-password-change-me"
 
+# The one seeded Player account users-api creates at startup, the same
+# idempotent way as admin above — a non-admin login always ready for a
+# demo/grading walkthrough without registering one by hand.
+player:
+  email: "player@fiapgames.local"
+  password: "player-dev-password-change-me"
+
 # Real email delivery is optional and config-toggled (notifications-api's
 # Email:Provider) — this key only matters when that's set to "resend".
 # Empty by default; a real key must be supplied to actually send.
