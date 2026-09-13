@@ -27,7 +27,7 @@ spec:
                 name: users-api
                 port:
                   number: 8080
-          - path: /api/games
+          - path: /api/catalog
             pathType: Prefix
             backend:
               service:
@@ -67,6 +67,13 @@ spec:
             backend:
               service:
                 name: notifications-api
+                port:
+                  number: 8080
+          - path: /api/platform
+            pathType: Prefix
+            backend:
+              service:
+                name: platform-api
                 port:
                   number: 8080
           # Catch-all, must stay last: nginx-ingress matches by longest

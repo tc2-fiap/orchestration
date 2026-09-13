@@ -14,8 +14,11 @@ dependencies:
 - name: payments-api
   repository: file://../payments-api/k8s
   version: 0.1.0
+- name: platform-api
+  repository: file://../platform-api/k8s
+  version: 0.1.0
 - name: frontend
   repository: file://../frontend/k8s
   version: 0.1.0
-digest: sha256:c96b3b74ce26b9cb173ab21fb6ef8abffb5e175809376ca39bac8307261548c0
-generated: "2026-08-30T17:14:58.606149813-03:00"
+digest: sha256:b211e6754119fae67844e56be29738798a61ab489db19d50ead46ddfce4603b2
+generated: "2026-09-12T22:56:51.834628273-03:00"

@@ -21,6 +21,9 @@ dependencies:
   - name: payments-api
     version: "0.1.0"
     repository: "file://../payments-api/k8s"
+  - name: platform-api
+    version: "0.1.0"
+    repository: "file://../platform-api/k8s"
   - name: frontend
     version: "0.1.0"
     repository: "file://../frontend/k8s"
