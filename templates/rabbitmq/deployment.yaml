@@ -15,8 +15,23 @@ spec:
       labels:
         app: rabbitmq
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: rabbitmq
+          # No capabilities.drop here: the official rabbitmq image's own
+          # entrypoint uses su-exec to drop from root to the "rabbitmq" user
+          # internally, which needs CAP_SETUID/CAP_SETGID -- stripping them
+          # breaks that startup sequence entirely (confirmed live: "su-exec:
+          # setgroups: Operation not permitted").
+          securityContext:
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi
           image: {{ .Values.rabbitmq.image }}
           ports:
             - containerPort: 5672

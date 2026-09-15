@@ -17,8 +17,23 @@ spec:
       labels:
         app: postgres
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: postgres
+          # No capabilities.drop here: the official postgres image's own
+          # entrypoint chown/chmods the data dir as root before dropping to
+          # the "postgres" user internally (gosu) -- stripping CAP_CHOWN
+          # breaks that startup sequence entirely (confirmed live: "chmod:
+          # /var/run/postgresql: Operation not permitted").
+          securityContext:
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
           image: {{ .Values.postgres.image }}
           ports:
             - containerPort: 5432

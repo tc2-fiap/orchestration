@@ -1,0 +1,133 @@
+# Default-deny ingress for the whole namespace, then explicit allows below.
+# Requires a CNI that enforces NetworkPolicy (Calico, installed via
+# orchestration/kind/cluster-config.yaml's disableDefaultCNI) -- kind's
+# default kindnet CNI silently ignores these rules entirely.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: {{ .Values.global.namespace }}
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+---
+# The Ingress controller (a different namespace) is the only thing allowed
+# to reach any of the 7 app pods -- matches the path-prefix routing table in
+# ingress.yaml, where all 7 are reachable through it.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-nginx
+  namespace: {{ .Values.global.namespace }}
+spec:
+  podSelector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - users-api
+          - catalog-api
+          - orders-api
+          - payments-api
+          - notifications-api
+          - platform-api
+          - frontend
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/component: controller
+      ports:
+        - protocol: TCP
+          port: 8080
+---
+# orders-api calls catalog-api directly (Catalog__BaseUrl) to price each
+# order line item -- the only direct pod-to-pod HTTP call in the system;
+# everything else goes through the Ingress or RabbitMQ. Caught live: without
+# this, order creation hung until timeout, since the default-deny above
+# blocks it same as anything else not explicitly allowed.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-orders-to-catalog
+  namespace: {{ .Values.global.namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app: catalog-api
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: orders-api
+      ports:
+        - protocol: TCP
+          port: 8080
+---
+# Only the 5 DB-backed services (including their wait-for-postgres init
+# container, which shares the pod's own label) may reach Postgres.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-postgres
+  namespace: {{ .Values.global.namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - users-api
+                  - catalog-api
+                  - orders-api
+                  - payments-api
+                  - notifications-api
+      ports:
+        - protocol: TCP
+          port: 5432
+---
+# Only the 6 services that publish/consume events (every backend except
+# catalog-api's purchase-flow isolation still applies -- it consumes
+# TokenRevokedEvent, so it needs this too) may reach RabbitMQ.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-rabbitmq
+  namespace: {{ .Values.global.namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app: rabbitmq
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - users-api
+                  - catalog-api
+                  - orders-api
+                  - payments-api
+                  - notifications-api
+                  - platform-api
+      ports:
+        - protocol: TCP
+          port: 5672
